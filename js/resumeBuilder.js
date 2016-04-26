@@ -9,37 +9,21 @@ function myPrepend(where, temp, tag, data) {
   where.prepend(temp);
 }
 
-var bio = {
-  "name": "Rolf Eriksen",
-  "roll": "Konsulent",
-  "skils": ["Data", "Sykkel", "Seiling"],
+function myHtml(obj, level) {
+//
+  var s = "";
 
-  work: {
-    position: ""
-  },
-	"education": {
-		"schools": [{
-			"name": "Uacity",
-			"city": "Internett"
-		}, {
-			"name": "UiO",
-			"city": "Oslo"
-		}]
-	}
-
-};
-
-//$("#main").append("Rolf Eriksen");
-myPrepend($("#header"), HTMLheaderRole, ["%data%"], [bio.roll]);
-myPrepend($("#header"), HTMLheaderName, ["%data%"], [bio.name]);
-
-for (var i in bio.education.schools) {
-  console.log(bio.education.schools[i].name);
+  for (var property in obj) {
+      if (obj.hasOwnProperty(property)) {
+        //console.log("  ".repeat(level) + property +":", obj[property]);
+        s += this[property].replace("%data%", obj[property]);
+        console.log(s);
+      }
+  }
+  return s;
 }
 
-$(document).click(function(loc) { // your code goes here
-  logClicks(loc.clientX, loc.clientY);
-});
+
 
 function objIter(obj, level) {
 
@@ -59,7 +43,54 @@ function objIter(obj, level) {
   }
 }
 
-objIter(bio, 0);
+var bio = {
+  "name": "Rolf Eriksen",
+  "roll": "Konsulent",
+  "skils": ["Data", "Sykkel", "Seiling"],
+
+  work: {
+    position: ""
+  },
+	"education": {
+		"schools": [{
+			"name": "Uacity",
+			"city": "Internett",
+      "degree": "Web developer"
+		}, {
+			"name": "UiO",
+			"city": "Oslo",
+      "degree": "Master"
+		}]
+	}
+
+};
+
+//$("#main").append("Rolf Eriksen");
+myPrepend($("#header"), HTMLheaderRole, ["%data%"], [bio.roll]);
+myPrepend($("#header"), HTMLheaderName, ["%data%"], [bio.name]);
+
+for (var i in bio.education.schools) {
+  console.log(bio.education.schools[i].name);
+
+  s = myHtml( {
+    "HTMLschoolStart": "",
+    "HTMLschoolName": bio.education.schools[i].name,
+    "HTMLschoolDegree": bio.education.schools[i].degree,
+    "HTMLschoolLocation": bio.education.schools[i].city
+  }, 0);
+  $("#education").append(s);
+}
+
+$(document).click(function(loc) { // your code goes here
+  logClicks(loc.clientX, loc.clientY);
+});
+
+
+
+//objIter(bio, 0);
+
+
+
 
 // for (var property in bio) {
 //     if (bio.hasOwnProperty(property)) {
