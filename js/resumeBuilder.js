@@ -17,7 +17,7 @@ function myHtml(obj, level) {
       if (obj.hasOwnProperty(property)) {
         //console.log("  ".repeat(level) + property +":", obj[property]);
         s += this[property].replace("%data%", obj[property]);
-        console.log(s);
+        //console.log(s);
       }
   }
   return s;
@@ -49,7 +49,12 @@ var bio = {
   "skils": ["Data", "Sykkel", "Seiling"],
 
   work: {
-    position: ""
+    position: "",
+    jobs: [
+      {
+        location: "Lillestrøm"
+      }
+    ]
   },
 	"education": {
 		"schools": [{
@@ -65,27 +70,55 @@ var bio = {
 
 };
 
+bio.education.display = function() {
+  for (var i in this.schools) {
+    console.log(this.schools[i].name);
+
+    s = myHtml( {
+      "HTMLschoolStart": "",
+      "HTMLschoolName": this.schools[i].name,
+      "HTMLschoolDegree": this.schools[i].degree,
+      "HTMLschoolLocation": this.schools[i].city
+    }, 0);
+    $("#education").append(s);
+  }
+}
+
+
 //$("#main").append("Rolf Eriksen");
 myPrepend($("#header"), HTMLheaderRole, ["%data%"], [bio.roll]);
 myPrepend($("#header"), HTMLheaderName, ["%data%"], [bio.name]);
 
-for (var i in bio.education.schools) {
-  console.log(bio.education.schools[i].name);
-
-  s = myHtml( {
-    "HTMLschoolStart": "",
-    "HTMLschoolName": bio.education.schools[i].name,
-    "HTMLschoolDegree": bio.education.schools[i].degree,
-    "HTMLschoolLocation": bio.education.schools[i].city
-  }, 0);
-  $("#education").append(s);
-}
+bio.education.display();
+// for (var i in bio.education.schools) {
+//   console.log(bio.education.schools[i].name);
+//
+//   s = myHtml( {
+//     "HTMLschoolStart": "",
+//     "HTMLschoolName": bio.education.schools[i].name,
+//     "HTMLschoolDegree": bio.education.schools[i].degree,
+//     "HTMLschoolLocation": bio.education.schools[i].city
+//   }, 0);
+//   $("#education").append(s);
+// }
 
 $(document).click(function(loc) { // your code goes here
   logClicks(loc.clientX, loc.clientY);
 });
 
 
+function inName(name) {
+  var l = name.split(" ")
+      nn = l[0].toLowerCase() +" "+ l[1].toUpperCase();
+
+  return nn.charAt(0).toUpperCase() + nn.slice(1);;
+}
+
+console.log(inName("rolf eriksen"));
+
+$("#main").append(internationalizeButton);
+
+$("#mapDiv").append(googleMap);
 
 //objIter(bio, 0);
 
