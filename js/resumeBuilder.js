@@ -121,7 +121,10 @@ $("#main").append(internationalizeButton);
 $("#mapDiv").append(googleMap);
 
 //objIter(bio, 0);
-
+example1();
+function example1() {
+    console.log("Ran the example");
+}
 
 
 
